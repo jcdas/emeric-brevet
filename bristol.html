@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Bristol · Oral brevet · Emeric Das</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,300&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4 portrait; margin: 8mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: white;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  :root {
+    --c-physique: #2e7d5c;
+    --c-mental:   #6b4a9c;
+    --c-social:   #b35a1f;
+    --c-data:     #2d5a8a;
+    --c-accent:   #a02a2a;
+    --muted:      #7a7a78;
+    --rule:       #e2e2dd;
+  }
+
+  /* 2 cartes par page A4, chacune = demi-A4 paysage */
+  .page {
+    width: 100%;
+    height: calc(50vh);
+    display: flex;
+    flex-direction: column;
+    page-break-inside: avoid;
+  }
+
+  .card {
+    width: 100%;
+    height: 130mm;
+    border: 1.5px solid var(--rule);
+    border-radius: 4px;
+    padding: 10mm 12mm;
+    display: flex;
+    flex-direction: column;
+    gap: 6mm;
+    margin-bottom: 6mm;
+    page-break-inside: avoid;
+    position: relative;
+  }
+
+  /* Trait de coupe */
+  .card::after {
+    content: '✂ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─';
+    position: absolute;
+    bottom: -5mm;
+    left: 0;
+    font-size: 7pt;
+    color: #ccc;
+    letter-spacing: 1px;
+    width: 100%;
+  }
+  .card:last-child::after { display: none; }
+
+  /* Badge slide */
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 5mm;
+    border-bottom: 2px solid currentColor;
+  }
+  .badge {
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+    padding: 3px 8px 4px;
+    border-radius: 2px;
+  }
+  .card-title {
+    font-family: 'Fraunces', serif;
+    font-size: 16pt;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .card-num {
+    margin-left: auto;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 22pt;
+    font-weight: 300;
+    color: var(--rule);
+  }
+
+  /* Mots-clés */
+  .keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    flex: 1;
+    align-content: flex-start;
+  }
+  .kw {
+    font-size: 12pt;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 3px;
+    border: 1.5px solid;
+    line-height: 1.2;
+  }
+  .kw.secondary {
+    font-weight: 400;
+    font-size: 11pt;
+    opacity: 0.75;
+  }
+
+  /* Ancre (phrase clé à dire) */
+  .anchor {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 11pt;
+    line-height: 1.4;
+    color: #444;
+    padding-top: 4mm;
+    border-top: 1px solid var(--rule);
+  }
+
+  /* Couleurs par slide */
+  .s1 { color: #141414; border-color: #141414; }
+  .s1 .card-header { border-color: #141414; }
+  .s1 .kw { border-color: #141414; color: #141414; }
+
+  .s2 { color: var(--c-physique); border-color: var(--c-physique); }
+  .s2 .card-header { border-color: var(--c-physique); }
+  .s2 .kw { border-color: var(--c-physique); color: var(--c-physique); }
+
+  .s3 { color: var(--c-mental); border-color: var(--c-mental); }
+  .s3 .card-header { border-color: var(--c-mental); }
+  .s3 .kw { border-color: var(--c-mental); color: var(--c-mental); }
+
+  .s4 { color: var(--c-social); border-color: var(--c-social); }
+  .s4 .card-header { border-color: var(--c-social); }
+  .s4 .kw { border-color: var(--c-social); color: var(--c-social); }
+
+  .s5 { color: var(--c-data); border-color: var(--c-data); }
+  .s5 .card-header { border-color: var(--c-data); }
+  .s5 .kw { border-color: var(--c-data); color: var(--c-data); }
+
+  .s6 { color: var(--c-accent); border-color: var(--c-accent); }
+  .s6 .card-header { border-color: var(--c-accent); }
+  .s6 .kw { border-color: var(--c-accent); color: var(--c-accent); }
+
+  @media print {
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CARTE 1 : COUVERTURE -->
+<div class="card s1">
+  <div class="card-header">
+    <span class="badge" style="background:#141414;">Slide 1</span>
+    <span class="card-title">Intro</span>
+    <span class="card-num">1</span>
+  </div>
+  <div class="keywords">
+    <span class="kw">bien-être</span>
+    <span class="kw">au-delà de la performance</span>
+    <span class="kw secondary">juste pour gagner ?</span>
+    <span class="kw secondary">trois temps</span>
+  </div>
+</div>
+
+<!-- CARTE 2 : CORPS -->
+<div class="card s2">
+  <div class="card-header">
+    <span class="badge" style="background:var(--c-physique);">Slide 2</span>
+    <span class="card-title">Le corps</span>
+    <span class="card-num">2</span>
+  </div>
+  <div class="keywords">
+    <span class="kw">puberté</span>
+    <span class="kw">squelette + muscles</span>
+    <span class="kw">cardiovasculaire</span>
+    <span class="kw">bases pour la vie</span>
+    <span class="kw secondary">règle : âge = max heures/sem</span>
+  </div>
+  <div class="anchor">Les bonnes habitudes à 15 ans protègent à 40 ans.</div>
+</div>
+
+<!-- CARTE 3 : TÊTE -->
+<div class="card s3">
+  <div class="card-header">
+    <span class="badge" style="background:var(--c-mental);">Slide 3</span>
+    <span class="card-title">La tête</span>
+    <span class="card-num">3</span>
+  </div>
+  <div class="keywords">
+    <span class="kw">émotions intenses</span>
+    <span class="kw">décembre</span>
+    <span class="kw">pression</span>
+    <span class="kw">se défouler</span>
+    <span class="kw secondary">ce n'est pas le bras qui perd</span>
+  </div>
+  <div class="anchor">Ce n'est pas le bras qui perd. C'est la tête.</div>
+</div>
+
+<!-- CARTE 4 : LES AUTRES -->
+<div class="card s4">
+  <div class="card-header">
+    <span class="badge" style="background:var(--c-social);">Slide 4</span>
+    <span class="card-title">Pour tous</span>
+    <span class="card-num">4</span>
+  </div>
+  <div class="keywords">
+    <span class="kw">escalade</span>
+    <span class="kw">hand, volley</span>
+    <span class="kw">gratuit</span>
+    <span class="kw">pour tout le monde</span>
+    <span class="kw secondary">tennis = individuel</span>
+  </div>
+  <div class="anchor">L'EPS, c'est gratuit. Le sport ne devrait pas dépendre de ce qu'on peut se payer.</div>
+</div>
+
+<!-- CARTE 5 : CHIFFRES -->
+<div class="card s5">
+  <div class="card-header">
+    <span class="badge" style="background:var(--c-data);">Slide 5</span>
+    <span class="card-title">Chiffres</span>
+    <span class="card-num">5</span>
+  </div>
+  <div class="keywords">
+    <span class="kw">60 min / jour</span>
+    <span class="kw">5 % obésité</span>
+    <span class="kw">45 % filles abandonnent</span>
+    <span class="kw">13 ans : écrans</span>
+    <span class="kw">relations amoureuses</span>
+    <span class="kw secondary">moins d'EPS à l'école</span>
+    <span class="kw secondary">habitudes pour la vie</span>
+  </div>
+  <div class="anchor">45 % des filles abandonnent le sport par contrainte. (MGEN/Kantar, 2026)</div>
+</div>
+
+<!-- CARTE 6 : CONCLUSION -->
+<div class="card s6">
+  <div class="card-header">
+    <span class="badge" style="background:var(--c-accent);">Slide 6</span>
+    <span class="card-title">Conclusion</span>
+    <span class="card-num">6</span>
+  </div>
+  <div class="keywords">
+    <span class="kw">performance</span>
+    <span class="kw">découverte</span>
+    <span class="kw">ensemble</span>
+    <span class="kw">bien-être</span>
+    <span class="kw">décompresser</span>
+    <span class="kw">cerveau reposé</span>
+    <span class="kw secondary">merci, prêt pour questions</span>
+  </div>
+  <div class="anchor">Le sport me permet de décompresser. Le cerveau reposé se concentre mieux. Je me sens plus performant !</div>
+</div>
+
+</body>
+</html>

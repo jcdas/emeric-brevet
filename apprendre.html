@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Apprendre mon pitch · Emeric Das</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,300&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-cover:    #141414;
+    --c-physique: #2e7d5c;
+    --c-mental:   #6b4a9c;
+    --c-social:   #b35a1f;
+    --c-data:     #2d5a8a;
+    --c-accent:   #a02a2a;
+    --bg-physique: #eef5f0;
+    --bg-mental:   #f2eef7;
+    --bg-social:   #f7efe6;
+    --bg-data:     #eaf0f7;
+    --bg-accent:   #f7ecec;
+    --muted:      #7a7a78;
+    --rule:       #e2e2dd;
+    --ink:        #141414;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f5f4f0;
+    color: var(--ink);
+    padding: 24px 12px 80px;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* ── HEADER ── */
+  .doc-header {
+    max-width: 720px;
+    margin: 0 auto 32px;
+    text-align: center;
+  }
+  .doc-header h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 28pt;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .doc-header .sub {
+    font-size: 10pt;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Barre de progression globale */
+  .progress-bar {
+    max-width: 720px;
+    margin: 0 auto 28px;
+    display: flex;
+    gap: 4px;
+    height: 5px;
+  }
+  .progress-bar .seg {
+    flex: 1;
+    border-radius: 99px;
+    opacity: 0.3;
+    transition: opacity .3s;
+  }
+  .progress-bar .seg.done { opacity: 1; }
+
+  /* ── SECTION ── */
+  .section {
+    max-width: 720px;
+    margin: 0 auto 16px;
+    background: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,.07);
+  }
+
+  .section-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 16px;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 1px solid var(--rule);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 64px;
+  }
+
+  .badge {
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: white;
+    padding: 3px 8px 4px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 14pt;
+    font-weight: 700;
+    flex: 1;
+  }
+
+  .section-meta {
+    font-size: 8pt;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+
+  .toggle-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--rule);
+    background: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16pt;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: all .2s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .toggle-btn.hidden-text { background: #141414; color: white; border-color: #141414; }
+
+  /* Corps de la section */
+  .section-body {
+    padding: 20px 24px;
+    transition: all .3s;
+  }
+  .section-body.masked .text-content {
+    filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+  }
+  .section-body.masked .mask-hint {
+    display: flex;
+  }
+
+  .mask-hint {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(20,20,20,0.85);
+    color: white;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .text-wrap {
+    position: relative;
+  }
+
+  p.pitch {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #2a2a2a;
+    margin-bottom: 14px;
+  }
+  p.pitch:last-child { margin-bottom: 0; }
+
+  /* Mots-clés à mémoriser */
+  mark {
+    background: none;
+    font-weight: 700;
+    color: inherit;
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 1px;
+  }
+
+  /* Anecdote */
+  .anecdote {
+    margin: 14px 0;
+    padding: 14px 18px;
+    border-radius: 4px;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 12pt;
+    line-height: 1.7;
+    color: #3a2060;
+    background: var(--bg-mental);
+    border-left: 3px solid var(--c-mental);
+    position: relative;
+  }
+  .anecdote::before {
+    content: 'ANECDOTE';
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-size: 7pt;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--c-mental);
+    margin-bottom: 6px;
+  }
+
+  /* Points forts */
+  .sub-point {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0ea;
+    align-items: baseline;
+  }
+  .sub-point:last-child { border-bottom: none; }
+  .sp-num {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 10pt;
+    color: var(--muted);
+    min-width: 18px;
+    flex-shrink: 0;
+  }
+  .sp-text {
+    font-size: 11.5pt;
+    line-height: 1.6;
+    color: #2a2a2a;
+  }
+
+  /* Chiffres highlight */
+  .stat-inline {
+    display: inline-block;
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 14pt;
+    color: var(--c-data);
+    margin: 0 2px;
+  }
+
+  /* Pullquote final */
+  .pullquote {
+    margin-top: 14px;
+    padding: 14px 18px;
+    border-radius: 4px;
+    background: var(--bg-accent);
+    border-left: 3px solid var(--c-accent);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13pt;
+    line-height: 1.5;
+    color: var(--c-accent);
+    font-weight: 400;
+  }
+
+  /* Notes */
+  .notes {
+    max-width: 720px;
+    margin: 24px auto 0;
+    padding: 16px 20px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: white;
+  }
+  .notes-title {
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .notes ul { list-style: none; padding: 0; }
+  .notes li {
+    font-size: 10pt;
+    line-height: 1.6;
+    padding-left: 14px;
+    position: relative;
+    color: #3a3a3a;
+    margin-bottom: 3px;
+  }
+  .notes li::before {
+    content: '·';
+    position: absolute;
+    left: 2px;
+    color: var(--muted);
+  }
+
+  /* Bouton global */
+  .global-actions {
+    max-width: 720px;
+    margin: 0 auto 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .btn {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 12px 18px;
+    border-radius: 6px;
+    border: 1.5px solid var(--rule);
+    background: white;
+    cursor: pointer;
+    color: var(--ink);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px;
+  }
+  .btn.primary { background: var(--ink); color: white; border-color: var(--ink); }
+
+  @media print {
+    body { background: white; padding: 10mm; }
+    .toggle-btn, .global-actions, .btn { display: none; }
+    .section-body.masked .text-content { filter: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <h1>Mon pitch · Oral du Brevet 2026</h1>
+  <div class="sub">Emeric Das · 3ème · Durée cible : 5 min</div>
+</div>
+
+<div class="progress-bar">
+  <div class="seg" style="background:var(--c-cover)" id="seg0"></div>
+  <div class="seg" style="background:var(--c-physique)" id="seg1"></div>
+  <div class="seg" style="background:var(--c-mental)" id="seg2"></div>
+  <div class="seg" style="background:var(--c-social)" id="seg3"></div>
+  <div class="seg" style="background:var(--c-data)" id="seg4"></div>
+  <div class="seg" style="background:var(--c-accent)" id="seg5"></div>
+</div>
+
+<div class="global-actions">
+  <button class="btn" onclick="toggleAll(true)">Tout masquer</button>
+  <button class="btn primary" onclick="toggleAll(false)">Tout afficher</button>
+</div>
+
+<!-- ── SECTION 1 : INTRO ── -->
+<div class="section" id="s0">
+  <div class="section-head" onclick="toggleSection('s0')">
+    <span class="badge" style="background:var(--c-cover);">Slide 1</span>
+    <span class="section-title">Introduction</span>
+    <span class="section-meta">~45 sec</span>
+    <button class="toggle-btn" id="btn-s0" onclick="event.stopPropagation(); toggleSection('s0')">👁</button>
+  </div>
+  <div class="section-body" id="body-s0">
+    <div class="text-wrap">
+      <div class="text-content">
+        <p class="pitch">Bonjour, je m'appelle <mark>Emeric</mark>, j'ai <mark>15 ans</mark>, et aujourd'hui je vais vous parler de comment le sport contribue au <mark>bien-être des adolescents</mark>, au-delà de la simple performance.</p>
+        <p class="pitch">J'ai choisi ce sujet parce que le <mark>tennis occupe une place essentielle</mark> dans ma vie. <mark>Je m'entraîne beaucoup</mark>, je fais des tournois. La joie d'une victoire, la frustration d'une défaite : les émotions sont fortes. Et en préparant cet oral, je me suis posé une vraie question : <mark>est-ce que je joue juste pour gagner ?</mark> Ou est-ce qu'il y a autre chose ?</p>
+        <p class="pitch">Pour répondre à ça, <mark>trois temps</mark> : ce que le sport apporte au corps, ce qu'il apporte à la tête, et ce que l'EPS m'apporte en plus du tennis.</p>
+      </div>
+      <div class="mask-hint">Appuyer sur l'oeil pour révéler</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 2 : CORPS ── -->
+<div class="section" id="s1">
+  <div class="section-head" onclick="toggleSection('s1')">
+    <span class="badge" style="background:var(--c-physique);">Slide 2</span>
+    <span class="section-title">Dans le corps</span>
+    <span class="section-meta">~50 sec</span>
+    <button class="toggle-btn" id="btn-s1" onclick="event.stopPropagation(); toggleSection('s1')">👁</button>
+  </div>
+  <div class="section-body" id="body-s1">
+    <div class="text-wrap">
+      <div class="text-content">
+        <p class="pitch"><mark>Je m'entraîne beaucoup</mark>, et le corps en prend l'habitude. À mon âge, c'est la <mark>puberté</mark> : c'est maintenant que le <mark>squelette se forme</mark>, que les muscles se construisent. Le tennis, c'est un <mark>sport complet</mark> : sprints, déplacements latéraux, frappes répétées. Tout le corps travaille.</p>
+        <p class="pitch">Et le sport, ça <mark>réduit les risques cardiovasculaires</mark> : les bonnes habitudes à 15 ans protègent à 40 ans.</p>
+        <p class="pitch">Bien sûr, il faut faire attention à ne pas trop en faire. La règle simple : <mark>ne pas dépasser son âge en heures d'entraînement par semaine.</mark></p>
+      </div>
+      <div class="mask-hint">Appuyer sur l'oeil pour révéler</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 3 : TÊTE ── -->
+<div class="section" id="s2">
+  <div class="section-head" onclick="toggleSection('s2')">
+    <span class="badge" style="background:var(--c-mental);">Slide 3</span>
+    <span class="section-title">Dans la tête</span>
+    <span class="section-meta">~1 min</span>
+    <button class="toggle-btn" id="btn-s2" onclick="event.stopPropagation(); toggleSection('s2')">👁</button>
+  </div>
+  <div class="section-body" id="body-s2">
+    <div class="text-wrap">
+      <div class="text-content">
+        <p class="pitch">C'est là que <mark>tout se joue</mark>. Le tennis, c'est un sport d'émotions intenses. La joie quand on gagne un point clé, la frustration quand on perd un set qu'on aurait dû gagner.</p>
+        <div class="anecdote">En décembre, je menais contre un joueur mieux classé. J'ai gagné le premier set. Et puis il y a eu un relâchement, de l'énervement, et j'ai perdu. Ce jour-là, j'ai compris : <strong>ce n'est pas le bras qui perd, c'est la tête.</strong></div>
+        <p class="pitch">Le tennis m'apprend à <mark>gérer la pression</mark>, à tenir face à mes propres émotions. Et après les cours, le sport me permet de <mark>me défouler</mark>, de vider la tête. Le cerveau reposé se concentre mieux, et <mark>les résultats scolaires suivent</mark>.</p>
+      </div>
+      <div class="mask-hint">Appuyer sur l'oeil pour révéler</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 4 : LES AUTRES ── -->
+<div class="section" id="s3">
+  <div class="section-head" onclick="toggleSection('s3')">
+    <span class="badge" style="background:var(--c-social);">Slide 4</span>
+    <span class="section-title">Pour tous</span>
+    <span class="section-meta">~1 min</span>
+    <button class="toggle-btn" id="btn-s3" onclick="event.stopPropagation(); toggleSection('s3')">👁</button>
+  </div>
+  <div class="section-body" id="body-s3">
+    <div class="text-wrap">
+      <div class="text-content">
+        <p class="pitch">Le tennis, c'est un sport <mark>individuel</mark>. L'EPS m'apporte trois choses que le tennis seul ne me donne pas.</p>
+        <div class="sub-point"><span class="sp-num">01</span><span class="sp-text"><strong>D'abord, la découverte.</strong> En EPS, j'ai fait de <mark>l'escalade</mark> pour la première fois. Un sport que je n'aurais jamais essayé seul, et que j'ai adoré.</span></div>
+        <div class="sub-point"><span class="sp-num">02</span><span class="sp-text"><strong>Ensuite, le collectif.</strong> Le <mark>hand, le volley</mark> : un côté du sport que le tennis ne me donne pas, qui m'apprend la coopération, la communication, compter sur les autres.</span></div>
+        <div class="sub-point"><span class="sp-num">03</span><span class="sp-text"><strong>Et surtout, l'inclusivité.</strong> Le tennis coûte cher : la licence, les cordages, les courts. <mark>L'EPS, c'est gratuit, c'est pour tout le monde.</mark> Le sport ne devrait pas dépendre de ce qu'on peut se payer.</span></div>
+      </div>
+      <div class="mask-hint">Appuyer sur l'oeil pour révéler</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 5 : CHIFFRES ── -->
+<div class="section" id="s4">
+  <div class="section-head" onclick="toggleSection('s4')">
+    <span class="badge" style="background:var(--c-data);">Slide 5</span>
+    <span class="section-title">Quelques chiffres</span>
+    <span class="section-meta">~45 sec</span>
+    <button class="toggle-btn" id="btn-s4" onclick="event.stopPropagation(); toggleSection('s4')">👁</button>
+  </div>
+  <div class="section-body" id="body-s4">
+    <div class="text-wrap">
+      <div class="text-content">
+        <p class="pitch">Quelques chiffres avant de conclure. L'OMS recommande <span class="stat-inline">60 min</span> de sport par jour pour un ado. Pourtant, <span class="stat-inline">5 %</span> des enfants sont en situation d'obésité, et le chiffre monte. L'activité physique chute vers <mark>13 ans</mark>, et ce n'est pas un hasard : <mark>les écrans, les premières relations amoureuses</mark>, et malheureusement <mark>moins d'EPS proposée à l'école</mark>.</p>
+        <p class="pitch">Et selon une étude <mark>MGEN/Kantar de janvier 2026</mark>, <span class="stat-inline">45 %</span> des adolescentes abandonnent le sport par contrainte et non par choix. C'est à l'adolescence que les habitudes s'installent, <mark>pour longtemps.</mark> Bonnes ou mauvaises.</p>
+      </div>
+      <div class="mask-hint">Appuyer sur l'oeil pour révéler</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SECTION 6 : CONCLUSION ── -->
+<div class="section" id="s5">
+  <div class="section-head" onclick="toggleSection('s5')">
+    <span class="badge" style="background:var(--c-accent);">Slide 6</span>
+    <span class="section-title">Conclusion</span>
+    <span class="section-meta">~30 sec</span>
+    <button class="toggle-btn" id="btn-s5" onclick="event.stopPropagation(); toggleSection('s5')">👁</button>
+  </div>
+  <div class="section-body" id="body-s5">
+    <div class="text-wrap">
+      <div class="text-content">
+        <p class="pitch">Le <mark>tennis</mark> m'apporte la performance, l'effort, l'émotion. <mark>L'EPS</mark> m'apporte la découverte et le collectif. Ensemble, ils contribuent à mon <mark>bien-être</mark> bien au-delà du résultat ou du classement.</p>
+        <div class="pullquote">Le tennis m'apporte la performance. L'EPS m'apporte la découverte. Ensemble, ils me construisent.</div>
+        <p class="pitch" style="margin-top:14px;">Je vous remercie de votre écoute. <mark>Je suis prêt à répondre à vos questions.</mark></p>
+      </div>
+      <div class="mask-hint">Appuyer sur l'oeil pour révéler</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── NOTES ── -->
+<div class="notes">
+  <div class="notes-title">Notes de présentation</div>
+  <ul>
+    <li>Tempo : parler calmement, ne pas accélérer.</li>
+    <li>Insister sur les anecdotes personnelles : les 10-12h, le match de décembre, l'escalade.</li>
+    <li>Faire des pauses entre les trois parties.</li>
+    <li>Regarder le jury, pas les slides.</li>
+  </ul>
+</div>
+
+<script>
+  const sections = ['s0','s1','s2','s3','s4','s5'];
+  const state = {};
+  sections.forEach(id => state[id] = false); // false = visible
+
+  function toggleSection(id) {
+    state[id] = !state[id];
+    const body = document.getElementById('body-' + id);
+    const btn  = document.getElementById('btn-'  + id);
+    const seg  = document.getElementById('seg' + sections.indexOf(id));
+    if (state[id]) {
+      body.classList.add('masked');
+      btn.classList.add('hidden-text');
+      btn.textContent = '🙈';
+      seg.classList.remove('done');
+    } else {
+      body.classList.remove('masked');
+      btn.classList.remove('hidden-text');
+      btn.textContent = '👁';
+      seg.classList.add('done');
+    }
+  }
+
+  function toggleAll(hide) {
+    sections.forEach(id => {
+      if (hide !== state[id]) toggleSection(id);
+    });
+  }
+
+  // Au départ toutes les sections sont visibles, barre allumée
+  sections.forEach((id, i) => {
+    document.getElementById('seg' + i).classList.add('done');
+  });
+</script>
+</body>
+</html>
