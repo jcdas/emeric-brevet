@@ -56,13 +56,17 @@ html,body{height:100%;overflow:hidden;background:#0a0a0a;font-family:'Inter',san
 <div class="deck" id="deck">
 
 <!-- ① INTRO -->
-<div class="slide" style="background:#0f0f0f;align-items:stretch;flex-direction:row;">
-  <div style="width:7px;display:flex;flex-direction:column;flex-shrink:0;">
+<div class="slide" style="background:#0f0f0f;align-items:stretch;flex-direction:row;position:relative;">
+  <!-- Background photo avec overlay -->
+  <div style="position:absolute;inset:0;z-index:0;">
+    <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=1600&q=75" alt="" style="width:100%;height:100%;object-fit:cover;opacity:.18;">
+  </div>
+  <div style="width:7px;display:flex;flex-direction:column;flex-shrink:0;position:relative;z-index:1;">
     <div style="flex:1;background:var(--physique)"></div><div style="flex:1;background:var(--mental)"></div>
     <div style="flex:1;background:var(--social)"></div><div style="flex:1;background:var(--data)"></div>
     <div style="flex:1;background:var(--accent)"></div>
   </div>
-  <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(28px,4vw,52px) clamp(36px,5vw,64px);">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(28px,4vw,52px) clamp(36px,5vw,64px);position:relative;z-index:1;">
     <div style="display:flex;justify-content:space-between;">
       <span style="font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,.28);">Oral du Brevet 2026</span>
       <span style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.18);">Emeric Das</span>
@@ -87,8 +91,8 @@ html,body{height:100%;overflow:hidden;background:#0a0a0a;font-family:'Inter',san
 
 <!-- ② LE CORPS -->
 <div class="slide" style="position:relative;">
-  <div style="position:absolute;right:-3%;top:50%;transform:translateY(-50%);font-family:'Fraunces',serif;font-weight:900;font-size:clamp(140px,30vw,340px);line-height:1;color:rgba(46,125,92,.055);user-select:none;pointer-events:none;letter-spacing:-10px;">02</div>
   <div class="pad" style="position:relative;">
+    <div style="position:absolute;right:-20px;top:50%;transform:translateY(-50%);font-family:'Fraunces',serif;font-weight:900;font-size:clamp(120px,22vw,260px);line-height:1;color:rgba(46,125,92,.055);user-select:none;pointer-events:none;letter-spacing:-10px;">02</div>
     <div class="bar" style="background:var(--physique);"></div>
     <div class="lbl" style="color:var(--physique);">Premier effet</div>
     <div class="big" style="color:var(--physique);margin-bottom:4px;">Dans le corps.</div>
@@ -104,11 +108,17 @@ html,body{height:100%;overflow:hidden;background:#0a0a0a;font-family:'Inter',san
       <span style="font-size:13px;color:var(--soft);">Ne pas dépasser son âge en heures d'entraînement par semaine.</span>
     </div>
   </div>
+  <!-- Photo droite -->
+  <div style="width:32%;flex-shrink:0;overflow:hidden;position:relative;">
+    <img src="https://images.unsplash.com/photo-1554284126-aa88f22d8b74?w=800&q=80" alt="Tennis" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <span style="position:absolute;bottom:10px;right:10px;font-size:7px;color:rgba(255,255,255,.65);font-weight:500;letter-spacing:.8px;text-transform:uppercase;text-shadow:0 1px 4px rgba(0,0,0,.7);">Sport · Unsplash</span>
+  </div>
 </div>
 
 <!-- ③ LA TÊTE -->
 <div class="slide">
-  <div style="width:30%;background:var(--mental);flex-shrink:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,3vw,38px);">
+  <div style="width:30%;background:var(--mental);flex-shrink:0;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(22px,3vw,38px);position:relative;overflow:hidden;">
+    <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=75" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.2;mix-blend-mode:luminosity;">
     <div class="lbl" style="color:rgba(255,255,255,.45);">Deuxième effet</div>
     <div style="font-family:'Fraunces',serif;font-weight:900;font-size:clamp(30px,4vw,50px);line-height:.92;letter-spacing:-2px;color:#fff;margin-bottom:22px;">
       Dans<br><span style="font-style:italic;font-weight:300;">la tête.</span>
@@ -129,8 +139,14 @@ html,body{height:100%;overflow:hidden;background:#0a0a0a;font-family:'Inter',san
 </div>
 
 <!-- ④ LES AUTRES -->
-<div class="slide" style="flex-direction:column;">
-  <div style="padding:clamp(20px,2.5vw,30px) clamp(26px,4vw,52px) 0;flex-shrink:0;">
+<div class="slide" style="flex-direction:row;">
+  <!-- Photo gauche -->
+  <div style="width:30%;flex-shrink:0;overflow:hidden;position:relative;">
+    <img src="https://images.unsplash.com/photo-1526676037777-05a232554f77?w=700&q=80" alt="Sport collectif" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <span style="position:absolute;bottom:10px;left:10px;font-size:7px;color:rgba(255,255,255,.65);font-weight:500;letter-spacing:.8px;text-transform:uppercase;text-shadow:0 1px 4px rgba(0,0,0,.7);">Sport collectif · Unsplash</span>
+  </div>
+  <div style="flex:1;display:flex;flex-direction:column;">
+  <div style="padding:clamp(20px,2.5vw,30px) clamp(26px,4vw,40px) 0;flex-shrink:0;">
     <div class="bar" style="background:var(--social);"></div>
     <div style="display:flex;justify-content:space-between;align-items:baseline;gap:20px;">
       <div>
@@ -156,6 +172,7 @@ html,body{height:100%;overflow:hidden;background:#0a0a0a;font-family:'Inter',san
       <div><div class="lbl" style="color:var(--social);margin-bottom:4px;">Pour tous</div><p style="font-size:clamp(13px,1.4vw,15px);line-height:1.45;color:var(--soft);">L'EPS, c'est gratuit. Le sport ne devrait pas dépendre de ce qu'on peut se payer.</p></div>
     </div>
   </div>
+  </div><!-- /flex:1 wrapper -->
 </div>
 
 <!-- ⑤ CHIFFRES -->
@@ -200,7 +217,8 @@ html,body{height:100%;overflow:hidden;background:#0a0a0a;font-family:'Inter',san
 
 <!-- ⑥ CONCLUSION -->
 <div class="slide">
-  <div style="width:38%;background:var(--accent);flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(24px,3vw,40px);">
+  <div style="width:38%;background:var(--accent);flex-shrink:0;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(24px,3vw,40px);position:relative;overflow:hidden;">
+    <img src="https://images.unsplash.com/photo-1552674605-db6ffd4facb5?w=700&q=75" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.15;mix-blend-mode:luminosity;">
     <div>
       <div style="width:32px;height:3px;background:rgba(255,255,255,.35);margin-bottom:16px;border-radius:2px;"></div>
       <div class="lbl" style="color:rgba(255,255,255,.42);">Pour conclure</div>
